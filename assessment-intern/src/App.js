@@ -1,12 +1,13 @@
+import React from 'react';
 import { Fragment } from 'react';
 import './App.css';
 import AppRouter from './AppRouter';
 
 function App() {
     return (
-        <Fragment>
+        <React.Fragment>
             <AppRouter />
-        </Fragment>
+        </React.Fragment>
     );
 }
 

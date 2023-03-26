@@ -1,0 +1,65 @@
+@import "../Pages.module.scss";
+
+
+
+
+.card {
+    height: 100%;
+    margin: 0 20px;
+    padding-top: 50px;
+}
+
+.title-login {
+    text-align: center;
+}
+
+.form-login h3 {
+    color: $bg-primary;
+}
+
+.email-item,
+.password-item {
+    line-height: 20px;
+    margin: 10px 0;
+}
+
+.show-password {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 5px;
+}
+
+.checkbox-label {
+    display: flex;
+    margin-top: 3px;
+}
+
+.checkbox-label p {
+    margin-left: 5px;
+}
+
+.checkbox-input {
+    width: 12px;
+    height: 12px;
+}
+
+.btn-signIn {
+    background-color: $bg-primary;
+    color: $text-secondary;
+    width: 65px;
+    height: 20px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-signIn:focus {
+    color: $text-light;
+}
+
+
+.errors {
+    color: $text-danger;
+    font-size: 12px;
+}

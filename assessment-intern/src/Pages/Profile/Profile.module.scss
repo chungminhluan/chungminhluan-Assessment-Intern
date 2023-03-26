@@ -1,0 +1,56 @@
+@import "../Pages.module.scss";
+
+
+
+
+.card {
+    height: 100%;
+    margin: 0 20px;
+    padding-top: 30px;
+}
+
+.form-login h3 {
+    color: $text-secondary;
+}
+
+
+.btn-profile {
+    display: flex;
+    justify-content: end;
+}
+
+
+.btn-update,
+.btn-cancel {
+    width: 60px;
+    height: 30px;
+    border-radius: 8px;
+    margin-top: 10px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-update {
+    background-color: $bg-primary;
+    color: $text-secondary;
+    margin-right: 10px;
+}
+
+.btn-update:focus {
+    color: $text-light;
+}
+
+
+
+.btn-cancel {
+    background-color: $bg-info;
+    color: $text-primary;
+}
+
+
+
+.btn-cancel:focus {
+    color: $text-secondary;
+
+}

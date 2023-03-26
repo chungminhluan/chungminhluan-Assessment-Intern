@@ -1,91 +1,117 @@
-import './Login.css';
-import { useState } from 'react';
-// import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
+import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import styles from './Login.module.scss';
+
+const cx = classNames.bind(styles);
+const users = [
+    {
+        email: 'luanxalo@xalo.longan',
+        password: 'luanxalo123',
+    },
+    {
+        email: 'nhuxalo@xalo.binhthuan',
+        password: 'nhuxalo123',
+    },
+    {
+        email: 'bobsmith',
+        password: '123456789',
+    },
+];
+
+const schema = yup.object().shape({
+    email: yup.string().required('this field is not empty').min(5, 'email must be at least 5 characters'),
+    password: yup.string().required('this field is not empty').min(8, 'Password must be at least 8 characters'),
+});
+
 function Login() {
-    const [state, setState] = useState({
-        email: '',
-        password: '',
-    });
     const navigate = useNavigate();
+    const [passwordShown, setPasswordShown] = useState(false);
+    const togglePasswordVisiblity = () => {
+        setPasswordShown(passwordShown ? false : true);
+    };
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: yupResolver(schema),
+    });
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setState((prevProps) => ({
-            ...prevProps,
-            [name]: value,
-        }));
+    const onSubmit = (data) => {
+        const result = loginUser(data);
+
+        if (result === 'Login successful') {
+            console.log('Login successful');
+            navigate('/profile'); // navigate to the profile page
+        } else {
+            console.log(result);
+            navigate('/loginErrors');
+        }
     };
 
-    const handleSubmit = () => {
-        // event.preventDefault();
-        if (state) {
-            navigate('/profile');
-        } else alert(123);
-    };
+    function loginUser(data) {
+        // console.log(data);
+        const user = users.find((user) => user.email === data.email);
 
-    // const {
-    //     register,
-    //     handleSubmit,
+        if (!user) {
+            return 'User not found';
+        }
 
-    // } = useForm(true);
-    // const onSubmit = (data) => console.log(data);
-    // const navigate = useNavigate();
+        if (user.password !== data.password) {
+            return 'Incorrect password';
+        }
 
-    // const handleClickLogin = () => {
-    //     if (register) {
-    //         navigate('/profile');
-    //     } else alert('Lỗi');
-    // };
+        // const navigate = useNavigate();
+        // navigate("/profile");
+        return 'Login successful';
+    }
 
-    // const data = [
-    //     {
-    //         email: ,
-    //         password: '',
-    //     },
-    // ];
     return (
-        <div className={'login'}>
-            <div className={'container'}>
-                <div className={'card-login'}>
-                    <h2 className={'title-login'}>Login</h2>
-                    <form className={'form-login'} onSubmit={handleSubmit}>
-                        <div className={'email-item'}>
-                            <h3 className={'email'}>Email:</h3>
+        <div className={cx('wrapper')}>
+            <div className={cx('container')}>
+                <div className={cx('card')}>
+                    <h2 className={cx('title-login')}>Login</h2>
+                    <form className={cx('form-login')} onSubmit={handleSubmit(onSubmit)}>
+                        <div className={cx('item')}>
+                            <h3 className={cx('email')}>Email:</h3>
                             <input
-                                value={state.email}
-                                name="email"
-                                className={'email-input'}
-                                type={'email'}
+                                className={cx('email-input')}
+                                // type={"email"}
                                 placeholder={'Example@kyanon.digital'}
-                                onChange={handleInputChange}
+                                {...register('email')}
                             />
+                            {errors.email && <p className={cx('errors')}>{errors.email.message}</p>}
                         </div>
-                        <div className={'password-item'}>
-                            <h3 className={'password'}>Password:</h3>
+                        <div className={cx('item')}>
+                            <h3 className={cx('password')}>Password:</h3>
                             <input
-                                value={state.password}
                                 name="password"
-                                className={'password-input'}
-                                type={'password'}
+                                className={cx('password-input')}
+                                type={passwordShown ? 'text' : 'password'}
                                 placeholder={'******'}
                                 id={'ipnPassword'}
-                                onChange={handleInputChange}
+                                {...register('password')}
                             />
+                            {errors.password && <p className={cx('errors')}>{errors.password.message}</p>}
                         </div>
-                        <div className={'btn-password'}>
-                            <i className={''} type={'button'} id={'btnPassword'}></i>
-                        </div>
-                        <div className={'remember-container'}>
-                            <label className={'checkbox-label'}>
-                                <input className={'checkbox-input'} type={'checkbox'} />
-                                <span className={'checkmark'}>
-                                    <i className={''}></i>
+                        <div className={cx('show-password')}>
+                            <label className={cx('checkbox-label')}>
+                                <input
+                                    className={cx('checkbox-input')}
+                                    type={'checkbox'}
+                                    onClick={togglePasswordVisiblity}
+                                />
+                                <span className={cx('checkmark')}>
+                                    <i className={cx('')}></i>
                                 </span>
                                 <p>Show password</p>
                             </label>
 
-                            <button className={'btn-signIn'} type="submit">
+                            <button className={cx('btn-signIn')} type="submit">
                                 Sign in
                             </button>
                         </div>
