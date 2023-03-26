@@ -9,15 +9,17 @@ import styles from './Login.module.scss';
 const cx = classNames.bind(styles);
 const users = [
     {
-        email: 'luanxalo@xalo.longan',
-        password: 'luanxalo123',
+        email: 'luanluanluan200797@gmail.com',
+        password: 'chungminhluan',
+        profile: {
+            fullName: 'Chung Minh Luân',
+            dayOfBirth: '30/02/1997',
+            email: 'chungminhluan@gmail.com',
+            phone: '19001560',
+        },
     },
     {
-        email: 'nhuxalo@xalo.binhthuan',
-        password: 'nhuxalo123',
-    },
-    {
-        email: 'bobsmith',
+        email: 'reactjs@gmail.com',
         password: '123456789',
     },
 ];
@@ -43,10 +45,18 @@ function Login() {
 
     const onSubmit = (data) => {
         const result = loginUser(data);
-
+        const user = users.find((user) => user.email === data.email);
+        // console.log(user.profile?.fullName);
         if (result === 'Login successful') {
             console.log('Login successful');
-            navigate('/profile'); // navigate to the profile page
+            navigate('/profile', {
+                state: {
+                    fullName: user.profile?.fullName,
+                    dayOfBirth: user.profile?.dayOfBirth,
+                    emailProfile: user.profile?.email,
+                    phone: user.profile?.phone,
+                },
+            }); // navigate to the profile page
         } else {
             console.log(result);
             navigate('/loginErrors');
@@ -65,8 +75,6 @@ function Login() {
             return 'Incorrect password';
         }
 
-        // const navigate = useNavigate();
-        // navigate("/profile");
         return 'Login successful';
     }
 
