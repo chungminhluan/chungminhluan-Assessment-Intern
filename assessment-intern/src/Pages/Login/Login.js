@@ -5,24 +5,9 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import styles from './Login.module.scss';
+import users from '../../users/users';
 
 const cx = classNames.bind(styles);
-const users = [
-    {
-        email: 'luanluanluan200797@gmail.com',
-        password: 'chungminhluan',
-        profile: {
-            fullName: 'Chung Minh Luân',
-            dayOfBirth: '30/02/1997',
-            email: 'chungminhluan@gmail.com',
-            phone: '19001560',
-        },
-    },
-    {
-        email: 'reactjs@gmail.com',
-        password: '123456789',
-    },
-];
 
 const schema = yup.object().shape({
     email: yup.string().required('this field is not empty').min(5, 'email must be at least 5 characters'),
